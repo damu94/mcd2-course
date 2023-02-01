@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	 <parent>
+		<groupId>a9ae401c-ad3e-40a0-a297-22c8dd1fd2ca</groupId>
+		<artifactId>solutions-bom</artifactId>
+		<version>1.0.5</version>
+		<relativePath>../bom/pom.xml</relativePath>
+	</parent>
+
+	<groupId>a9ae401c-ad3e-40a0-a297-22c8dd1fd2ca</groupId>
+	<artifactId>solutions-parent-pom</artifactId>
+	<version>1.0.1</version>
+	<packaging>pom</packaging>
+
+	<name>solutions-parent-pom</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+<!-- Not explicitly used but needed for deployment to Exchange, otherwise Exchange cannot determine the asset type -->
+    	<type>custom</type>
+		<app.runtime>4.4.0-20220420</app.runtime>
+	</properties>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.mule.tools.maven</groupId>
+					<artifactId>mule-maven-plugin</artifactId>
+					<extensions>true</extensions>
+					<configuration>
+						<cloudhub2Deployment>
+							<uri>https://anypoint.mulesoft.com</uri>
+							<businessGroupId>a9ae401c-ad3e-40a0-a297-22c8dd1fd2ca</businessGroupId>
+							<environment>Sandbox</environment>
+							<target>Cloudhub-US-East-2</target>
+							<provider>MC</provider>
+							
+							<muleVersion>4.4.0</muleVersion>
+							
+							<server>cloudhub-deploy</server>							
+              <!-- reads credentials from settings.xml -->
+							<applicationName>check-in-api-dmd</applicationName>
+							<replicas>1</replicas>
+							<vCores>0.1</vCores>
+							<deploymentTimeout>240000</deploymentTimeout>
+							<properties>
+							<api.id>${api.id}</api.id>
+								<anypoint.platform.client_id>${ap.client_id}</anypoint.platform.client_id>
+								<anypoint.platform.client_secret>${ap.client_secret}</anypoint.platform.client_secret>
+							</properties>
+							<deploymentSettings>
+								<http>
+									<inbound>
+										<lastMileSecurity>true</lastMileSecurity>
+									</inbound>
+								</http>
+							</deploymentSettings>
+							<integrations>
+								<services>
+									<objectStoreV2>
+										<enabled>true</enabled>
+									</objectStoreV2>
+								</services>
+							</integrations>
+						</cloudhub2Deployment>
+					</configuration>
+				</plugin>
+				
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	
+
+</project>
